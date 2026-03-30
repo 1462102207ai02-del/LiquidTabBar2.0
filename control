@@ -1,0 +1,8 @@
+Package: com.test.liquidtabbar
+Name: LiquidTabBar
+Version: 1.0
+Architecture: arm64e
+Depends: mobilesubstrate
+Description: WeChat Floating TabBar
+Section: Tweaks
+Priority: optional
