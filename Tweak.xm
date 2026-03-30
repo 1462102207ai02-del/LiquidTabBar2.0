@@ -52,12 +52,8 @@ static void traverseViews(UIView *view) {
 %ctor {
     if (![[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.tencent.xinWeChat"]) return;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        NSArray *scenes = [UIApplication sharedApplication].connectedScenes;
-        for (UIScene *scene in scenes) {
-            if ([scene isKindOfClass:[UIWindowScene class]]) {
-                UIWindowScene *ws = (UIWindowScene *)scene;
-                for (UIWindow *win in ws.windows) traverseViews(win);
-            }
+        for (UIWindow *window in [UIApplication sharedApplication].windows) {
+            traverseViews(window);
         }
     });
 }
