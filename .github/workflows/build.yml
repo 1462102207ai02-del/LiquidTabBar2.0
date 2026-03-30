@@ -1,0 +1,27 @@
+name: Build
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Theos
+        run: |
+          git clone --recursive https://github.com/theos/theos.git $HOME/theos
+          curl -sL https://raw.githubusercontent.com/roothide/theos-roothide-patch/main/install.sh | bash
+
+      - name: Build Package
+        run: |
+          make clean
+          make package FINALPACKAGE=1
+
+      - name: Upload Deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: Deb
+          path: packages/*.deb
