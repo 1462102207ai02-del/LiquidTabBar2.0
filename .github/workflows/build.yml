@@ -8,10 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: brew install make ldid
+
+      - name: Install Theos
+        run: |
+          git clone --recursive https://github.com/theos/theos.git ~/theos
+          export THEOS=~/theos
+
       - name: Build
         run: |
-          brew install make ldid
-          git clone --recursive https://github.com/theos/theos.git ~/theos
           export THEOS=~/theos
           make clean package FINALPACKAGE=1
 
