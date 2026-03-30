@@ -7,7 +7,7 @@ static void applyTabBarStyle(UITabBar *tabBar) {
     tabBar.clipsToBounds = NO;
 
     for (UIView *sub in tabBar.subviews) {
-        if (sub.bounds.size.height < 3 || [sub.kind ofClass:UIVisualEffectView.class]) {
+        if (sub.bounds.size.height < 3 || [sub isKindOfClass:[UIVisualEffectView class]]) {
             sub.hidden = YES;
         }
     }
@@ -39,7 +39,7 @@ static void applyTabBarStyle(UITabBar *tabBar) {
     glass.layer.shadowOffset = CGSizeMake(0, 6);
 
     for (UIView *v in tabBar.subviews) {
-        if ([v isKindOfClass:UIVisualEffectView.class]) {
+        if ([v isKindOfClass:[UIVisualEffectView class]]) {
             [v removeFromSuperview];
         }
     }
@@ -48,7 +48,7 @@ static void applyTabBarStyle(UITabBar *tabBar) {
 
 static void traverseViews(UIView *view) {
     if (!view) return;
-    if ([view isKindOfClass:UITabBar.class]) {
+    if ([view isKindOfClass:[UITabBar class]]) {
         applyTabBarStyle((UITabBar *)view);
     }
     for (UIView *sub in view.subviews) traverseViews(sub);
@@ -57,8 +57,7 @@ static void traverseViews(UIView *view) {
 %ctor {
     if (![[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.tencent.xinWeChat"]) return;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        for (UIWindow *window in [UIApplication sharedApplication].windows) {
-            traverseViews(window);
-        }
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        if (keyWindow) traverseViews(keyWindow);
     });
 }
