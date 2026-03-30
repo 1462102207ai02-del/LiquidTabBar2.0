@@ -3,6 +3,6 @@ Name: LiquidTabBar
 Version: 1.0
 Architecture: arm64e
 Depends: mobilesubstrate
-Description: Floating TabBar
+Description: WeChat Floating TabBar
 Section: Tweaks
 Priority: optional
