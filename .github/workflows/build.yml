@@ -7,11 +7,19 @@ jobs:
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Theos
-        run: git clone --recursive https://github.com/theos/theos.git $HOME/theos
-      - name: Build
-        run: make clean package FINALPACKAGE=1
-      - uses: actions/upload-artifact@v4
+
+      - name: Prepare Theos
+        run: |
+          sudo git clone --recursive https://github.com/theos/theos.git /opt/theos
+          echo "THEOS=/opt/theos" >> $GITHUB_ENV
+
+      - name: Build Package
+        run: |
+          make clean
+          make package FINALPACKAGE=1
+
+      - name: Upload Deb
+        uses: actions/upload-artifact@v4
         with:
           name: Deb
-          path: packages/*.deb
+          path: packages/*.debpackages/*.deb
