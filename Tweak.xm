@@ -15,15 +15,11 @@ static void applyTabBarStyle(UITabBar *tabBar) {
     CGRect frame = UIEdgeInsetsInsetRect(tabBar.bounds, UIEdgeInsetsMake(0, 20, 20, 20));
     CGFloat radius = 24;
 
-    UIBlurEffect *blur;
-    if (@available(iOS 13, *)) {
-        if (tabBar.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark];
-        } else {
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialDark];
+    if (@available(iOS 13.0, *)) {
+        if (tabBar.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
             blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterialLight];
         }
-    } else {
-        blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     }
 
     UIVisualEffectView *glass = [[UIVisualEffectView alloc] initWithEffect:blur];
@@ -32,7 +28,6 @@ static void applyTabBarStyle(UITabBar *tabBar) {
     glass.layer.cornerRadius = radius;
     glass.layer.masksToBounds = YES;
     glass.userInteractionEnabled = NO;
-
     glass.layer.shadowColor = UIColor.blackColor.CGColor;
     glass.layer.shadowOpacity = 0.3;
     glass.layer.shadowRadius = 12;
@@ -56,14 +51,12 @@ static void traverseViews(UIView *view) {
 
 %ctor {
     if (![[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.tencent.xinWeChat"]) return;
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+        NSArray *scenes = [UIApplication sharedApplication].connectedScenes;
+        for (UIScene *scene in scenes) {
             if ([scene isKindOfClass:[UIWindowScene class]]) {
-                UIWindowScene *windowScene = (UIWindowScene *)scene;
-                for (UIWindow *window in windowScene.windows) {
-                    traverseViews(window);
-                }
+                UIWindowScene *ws = (UIWindowScene *)scene;
+                for (UIWindow *win in ws.windows) traverseViews(win);
             }
         }
     });
