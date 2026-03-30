@@ -18,7 +18,7 @@ jobs:
           make clean
           make package FINALPACKAGE=1
 
-      - name: Upload
+      - name: Upload Deb
         uses: actions/upload-artifact@v4
         with:
           name: Deb
