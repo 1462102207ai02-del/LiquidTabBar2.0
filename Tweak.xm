@@ -7,7 +7,7 @@ static void applyTabBarStyle(UITabBar *tabBar) {
     tabBar.clipsToBounds = NO;
 
     for (UIView *sub in tabBar.subviews) {
-        if (sub.bounds.size.height < 3 || [sub isKindOfClass:UIVisualEffectView.class]) {
+        if (sub.bounds.size.height < 3 || [sub.kind ofClass:UIVisualEffectView.class]) {
             sub.hidden = YES;
         }
     }
