@@ -8,7 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build with Theos
-        uses: theos/action-build@v1
+      - name: Build
+        run: |
+          brew install make ldid
+          git clone --recursive https://github.com/theos/theos.git ~/theos
+          export THEOS=~/theos
+          make clean package FINALPACKAGE=1
+
+      - uses: actions/upload-artifact@v4
         with:
-          package: 'true'
+          name: Deb
+          path: packages/*.deb
