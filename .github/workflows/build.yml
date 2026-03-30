@@ -8,12 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Theos
+      - name: Install Theos & Dependencies
         run: |
           git clone --recursive https://github.com/theos/theos.git $HOME/theos
+          $HOME/theos/bin/update-theos
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build Package
         run: |
           make clean
           make package FINALPACKAGE=1
